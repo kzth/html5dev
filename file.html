@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html>
+<head>
+	<title>File API</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<input type="file" id="input" name="files[]" multiple>
+	<div id="output"></div>
+	<!-- File APIが使えるかの判定 -->
+	<script type="text/javascript">
+		if(window.File){
+			alert("window.Fileを利用できます");
+		} else {
+			alert("window.Fileを利用できません");
+		}
+	</script>
+	
+	<!-- ファイルの名前 種類 サイズを取得する -->
+	<script type="text/javascript">
+		document.getElementById("input").addEventListener("change", function(event) {
+			var files = document.getElementById("input").files;
+			var output = document.getElementById("output");
+			
+			for(var i = 0; i < files.length; i++) {
+				var f = files[i];
+				output.innerHTML += "名前：" + f.name + "　種類" + f.type + "　サイズ" + f.size/1000 + "KB/URN" + f.urn + "<br>"; 
+			}
+		}, true);
+	</script>
+	
+	<!-- テキストファイルを読み込む -->
+	<!-- chromeの場合はaddEventListenerメソッドが未実装のためイベントはイドラonに書き換える -->	
+	<script type="text/javascript">
+		window.addEventListener("load", function() {
+			document.getElementById("input2").addEventListener("change", function(event){
+				var files = document.getElementById("input2").files;
+				var output2 = document.getElementById("output2");
+			
+				var f = files[0];
+				var fr = new FileReader();
+			
+				fr.readAsText(f, "utf-8");
+			
+				fr.addEventListener("load", function(event) {
+					var res = fr.result;
+					output2.innerHTML = res.replace(/(\n|\r)/g, "<be />");
+				}, true);
+			}, true);
+		}, true);
+	</script>
+	<input type="file" id="input2" name="files[]">
+	<div id="output2"></div>
+</body>
+</html>
