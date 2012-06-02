@@ -51,5 +51,23 @@
 	</script>
 	<input type="file" id="input2" name="files[]">
 	<div id="output2"></div>
+
+  <script type="text/javascript">
+    var worker = new Worker("file_sync.js");
+
+    document.getElementById("send").addEventListener("click", function(event) {
+      var files = document.getElementById("file").files;
+      worker.postMessage(files[0]);
+    }, true);
+
+    worker.addEventListener("message", function(event) {
+      ret = event.data;
+      var img = document.createElement("img");
+      img.src = ret;
+      document.getElementById("output").appendChild(img);
+    }, true);
+
+    
+  </script>
 </body>
 </html>

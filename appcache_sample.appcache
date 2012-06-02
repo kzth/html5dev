@@ -1,0 +1,19 @@
+CACHE MAINFEST
+# バージョンや日付を指定
+# var 1.0
+
+# キャッシュするファイル
+CACHE:
+appcache_sample.html
+appcache_sample.js
+appcache_sample.css
+
+# キャッシュしないリソースの指定
+NETWORK:
+data.html
+
+# 代価リソースの指定
+# onlineディレクトリ以下のファイルにアクセスした場合
+# fallback.htmlを表示
+FALLBACK:
+online/ fallback.html

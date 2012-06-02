@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Geolocation API</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="result"></div>
+    <script type="text/javascript">
+      <!-- 位置情報が使えるかの確認 -->
+      if(navigator.geolocation) {
+        alert("Geolocation is available");
+      } else {
+        alert("Geolocation is available");
+      }
+
+      <!-- 位置情報の取得 -->
+      window.addEventListener("load", function() {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            var location = "経度 : " + position.coords.latitude + "<br />" +
+              "経度 : " + position.coords.longitude + "<br />" +
+              "高度 : " + position.coords.altitude + "<br />" +
+              "緯度, 経度の誤差 : " + position.coords.accuracy + "<br />" +
+              "高度の誤差 : " + position.coords.altitudeAccuracy + "<br />" +
+              "方角 : " + position.coords.heading + "<br />" +
+              "速度 : " + position.coords.speed + "<br />";
+            console.log(location);
+            console.log(position);
+            document.getElementById("result").innerHTML = location;
+          },
+
+          <!-- エラーを検出する -->
+          function(error) {
+            var message = "";
+            switch(error.code) {
+              case error.TIMEOUT:
+                message = "タイムアウトが発生しました。";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                message = "位置情報が利用できません。";
+                break;
+              case error.PERMISSION_DENIED:
+                message = "Geolocation APIの利用権限がありません。"
+                break;
+              case error.UNKNOWN_ERROR:
+                message = "UNKNOWN_ERROR : " + error.message;
+                break;
+            }
+            document.getElementById("result").innerHTML = message;
+          },
+          { enableHighAccuracy: true, timeout: 1000}
+        );
+      }, true);
+    </script>
+
+
+    <!-- 連続して位置情報を取得する -->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript">
+      var watchId;
+      window.addEventListener("load", function() {
+        watchId = navigator.geolocation.watchPosition(
+          function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var mapCenter = new google.maps.LatLng(lat, lon);
+            var mapdiv = document.getElementById("map");
+            var myOption = {
+              zoom: 16,
+              center: mapCenter,
+              mapTypeId: google.maps.MapTypeId.POADMAP,
+              scaleControl: true
+              };
+            var map = new google.maps.Map(mapdiv, myOption);
+            var marker = new google.maps.Marker({
+              position: mapCenter,
+              map: map,
+              title: "現在地"
+              });
+            map.setCenter(mapCenter);
+          },
+          function() {
+            document.getElementById("map").innerHTML = "エラーが発生しました";
+          },
+          { enableHighAccuracy: true, timeout: true }
+        );
+
+        <!-- 連続した位置情報の取得を停止する -->
+        document.getElementById("stopBtn").addEventListener("click", function() {
+           navigator.geolocation.clearWatch(watchId);
+        }, true);
+      }, true);
+    </script>
+    <div id="map" style="width: 300px; height: 300px"></div>
+    <input type="button" id="stopBtn" value="位置情報の取得を止める">
+  </body>
+</html>
