@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang=ja>
+  <head>
+    <title>Cross Document Message</title>
+    <meta charset=utf-8>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // メッセージの送受信が利用できるかの確認
+      if (window.postMessage) {
+        window.alert("クロスドキュメントメッセージを利用できます");
+      } else {
+        window.alert("クロスドキュメントメッセージを利用できません");
+      }
+
+      // 送信先オリジン
+      var targetOrigin = "http://localhost";
+
+      function send(str) {
+        // メッセージの送信
+        document.getElementById("frame").contentWindow.postMessage(str, targetOrigin);
+      }
+
+    </script>
+    <input type="button" value="ニュース" onClick="send('news')">
+    <input type="button" value="地図" onClick="send('map')">
+    <input type="button" value="ブログ" onClick="send('blog')">
+    <iframe id="frame" src="http://localhost/xdm_alert.html" width="300"></iframe>
+  </body>
+</html>

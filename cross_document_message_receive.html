@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang=ja>
+  <head>
+    <title>Cross Document Message Receive</title>
+    <meta charset=utf-8>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var fromOrigin = "http://llocalhost";
+
+      window.addEventListener("message", function(event) {
+        if (event.origin == fromOrigin) {
+          var text = "";
+          switch(htmlEscape(event.data)) {
+            case "news":
+              text = "ニュースを表示";
+              break;
+            case "map":
+              text = "地図を表示";
+              break;
+            case "blog":
+              text = "ブログを表示";
+              break;
+            default:
+              break;
+          }
+          document.getElementById("receive").innerHTML = text;
+        } 
+      }, true);
+
+      function htmlEscape(str) {
+        str = str.replace(/&/g, "&amp;");
+        str = str.replace(/"/g, "&quot;");
+        str = str.replace(/'/g, "&#039;");
+        str = str.replace(/</g, "&lt;");
+        str = str.replace(/>/g, "&gt;");
+        return str;
+      }
+    </script>
+    <div id="receive"></div>
+  </body>
+</html>

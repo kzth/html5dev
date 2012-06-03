@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang=ja>
+  <head>
+    <title>Web Storage</title>
+    <meta charset=utf-8>
+  </head>
+  <body>
+    <div id="result"></div>
+    <script>
+      // sessionStorageが利用できるかの確認
+      if (window.sessionStorage) {
+        window.alert("Session Storageを利用できます");
+      } else {
+        window.alert("Session Storageを利用できません");
+      }
+
+      // localStorageが利用できるかの確認
+      if (window.localStorage) {
+        window.alert("Local Storageを利用できます");
+      } else {
+        window.alert("Local Storageを利用できません");
+      }
+
+      // Web Storageを利用する
+      var storage = sessionStorage;
+      storage.setItem("foo", "bar");
+      storage["test"] = "test2";
+
+      var obj = {
+        "sss": "sss2",
+        "aaa": "aaa2"
+      };
+      storage.setItem("key", JSON.stringify(obj));
+
+      // Local Storageを利用する
+      // だいたい上と同じ
+      localStorage.setItem("foo2", "bar2");
+
+      // データの数の取得
+      console.log(storage.length);
+
+      // n番目のキーを取得する
+      console.log(storage.getItem(storage.key(1)));
+
+      // Storageの削除
+      storage.removeItem("foo");
+      console.log(storage.getItem("foo"));
+
+      // すべてのデータを削除する
+      storage.clear();
+
+      // Web Storageのイベント
+      // 未実装のブラウザが多い 2012.6.3
+      window.addEventListener("storage", function(event) {
+        document.getElementById("result").innerHTML = "イベント発生のkey : " + event.key
+          + "<br />新しいvalue : " + event.newValue
+          + "<br />イベントが発生したURL : " + event.url
+          + "<br />イベントが発生したストレージ" + event.storageArea;
+      }, false);
+    </script>
+  </body>
+</html>
