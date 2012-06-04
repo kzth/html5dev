@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang=ja>
+  <head>
+    <title>Web Worder: The highest prime number</title>
+    <meta charset=utf-8>
+  </head>
+  <body>
+    <h1>Web Worder: The highest prime number</h1>
+    <article>The hight prime number discovered so far is:
+      <output id="result"></output>
+    </article>
+    <script>
+      var worker = new Worker('highPrime.js');
+      worker.onmessage = function(event) {
+        document.getElementById('result').textContent = event.data;
+      };
+    </script>
+  </body>
+</html>
