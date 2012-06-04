@@ -1,0 +1,3 @@
+# クロスドメイン通信を許可する
+# CGIなどでAccess-Control-Allow-Originのレスポンスヘッダを指定する場合は.htaccessはいらない
+Header append Access-Control-Allow-Origin: http://www.example.com
