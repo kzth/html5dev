@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Text Edit</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<p contenteditable="true">このテキストは編集可能です</p>
+		<script type="text/javascript">
+			window.addEventListener("load", function() {
+				var button = document.getElementById("button");
+				button.addEventListener("click", function(event) {
+					var p = document.getElementById("edit");
+					if(p.isContentEditable) {
+						p.contentEditable = "false";
+						button.value = "編集可能に";
+					} else {
+						p.contentEditable = "true";
+						p.focus();
+						button.value = "編集不可に";
+					}
+				}, true);
+			}, true);
+		</script>
+		<p id="edit" contenteditable="false">このテキストは編集可能です</p>
+		<input type="button" id="button" value="編集可能に">
+	</body>
+</html>
